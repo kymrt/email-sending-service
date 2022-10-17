@@ -9,7 +9,7 @@ Direct sending is provided with the /Email/SendEmail method. If there is a probl
 
 **Framework:** C#, MVC Web API Core 3.1
 
-**NuGet Packages:** SendGrid, Hangfire, NUnit, EntityFrameworkCore
+**NuGet Packages:** SendGrid, Hangfire, EntityFrameworkCore, NUnit
 
 **Database:** MSSQL 
 
