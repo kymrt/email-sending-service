@@ -21,12 +21,6 @@ namespace email_sending_service.Controllers
             _context = context;
         }
         
-        [HttpGet]
-        public IEnumerable<string> GetLanguageList()
-        {
-            return new List<string> { "English", "German"};
-        }
-        
         [HttpPost]
         [EmailActionFilter]
         public async Task<ActionResult> SendEmail(List<string> emailAddressList)
