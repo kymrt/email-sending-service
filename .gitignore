@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/*
+/email-sending-service/bin/*
+/email-sending-service/obj/*
+/email-sending-service.Test/obj/*
