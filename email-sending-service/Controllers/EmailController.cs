@@ -6,6 +6,7 @@ using email_sending_service.Data;
 using email_sending_service.Models;
 using email_sending_service.Utilities;
 using email_sending_service.Filters;
+using SendGrid;
 
 namespace email_sending_service.Controllers
 {
@@ -25,7 +26,9 @@ namespace email_sending_service.Controllers
         [EmailActionFilter]
         public async Task<ActionResult> SendEmail(List<string> emailAddressList)
         {
-            IMailService sender = new SendGridMailService();
+            string apiKey = Environment.GetEnvironmentVariable("SENDGRID_KEY");
+            SendGridClient client = new SendGridClient(apiKey);
+            IMailService sender = new SendGridMailService(client);
             var resultMailService = await sender.SendMailAsync(emailAddressList);
             if (resultMailService)
             {

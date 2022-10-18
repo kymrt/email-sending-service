@@ -8,10 +8,13 @@ namespace email_sending_service.Utilities
 {
     public class SendGridMailService : IMailService
     {
-        public async Task<bool> SendMailAsync(List<string> emailAdressList)
+        private readonly ISendGridClient _client;
+        public SendGridMailService(ISendGridClient client)
         {
-            string apiKey = Environment.GetEnvironmentVariable("SENDGRID_KEY");
-            SendGridClient client = new SendGridClient(apiKey);
+            _client = client;
+        }
+        public async Task<bool> SendMailAsync(List<string> emailAdressList)
+        {            
             EmailAddress fromAddress = new EmailAddress(Environment.GetEnvironmentVariable("FROM_EMAIL_ADDRESS"));
             string templateId = Environment.GetEnvironmentVariable("TEMPLATE_ID");
             List<EmailAddress> toAddresses = GetEmailList(emailAdressList);
@@ -21,7 +24,7 @@ namespace email_sending_service.Utilities
                 { "your_name", name }
             };
             var msg = MailHelper.CreateSingleTemplateEmailToMultipleRecipients(fromAddress, toAddresses, templateId, dynamicTemplateData);
-            var response = await client.SendEmailAsync(msg);
+            var response = await _client.SendEmailAsync(msg);
             return response.IsSuccessStatusCode;
         }
 

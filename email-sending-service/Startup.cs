@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using email_sending_service.Data;
 using Hangfire;
 using email_sending_service.Utilities;
+using SendGrid;
 
 namespace email_sending_service
 {
@@ -45,7 +46,9 @@ namespace email_sending_service
             {
                 EmailDataContext context = serviceScope.ServiceProvider.GetRequiredService<EmailDataContext>();
                 context.Database.EnsureCreated();
-                IMailService mailService = new SendGridMailService();
+                string apiKey = Environment.GetEnvironmentVariable("SENDGRID_KEY");
+                SendGridClient client = new SendGridClient(apiKey);
+                IMailService mailService = new SendGridMailService(client);
                 CronJobService cronJobService = new CronJobService(context, mailService);
                 app.UseHangfireDashboard();
                 string cronExpression = Environment.GetEnvironmentVariable("CRON_EXPRESSION");
